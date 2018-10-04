@@ -1,7 +1,6 @@
 // -*- rjsx -*-
 
 import React from 'react';
-import { withRouter } from 'react-router';
 import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 import { Masthead } from 'patternfly-react';
 import 'patternfly/dist/css/patternfly.min.css';
