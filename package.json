@@ -4,22 +4,24 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "patternfly-react": "^2.19.1",
+    "patternfly-react": "^2.20.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.0.3",
-    "react-thunk": "^1.0.0",
+    "react-scripts": "2.0.4",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
+    "redux-mock-store": "^1.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext .js --ext .jsx src"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -29,10 +31,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "eslint-plugin-jest": "^21.24.1",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-standard": "^4.0.0"
-  }
+  ]
 }
