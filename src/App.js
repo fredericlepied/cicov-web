@@ -35,6 +35,7 @@ class App extends Component {
               <Switch>
                 <Redirect from="/" exact to="/products" />
                 <Route path="/products" exact component={Pages.ProductsPage} />
+                <Route path="/product/:id" render={props => <Pages.ProductPage {...props } />} />
                 <Route path="/about" exact component={Pages.AboutPage} />
                 <Route component={Pages.Page404} />
               </Switch>
