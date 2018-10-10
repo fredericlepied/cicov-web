@@ -12,12 +12,7 @@ const mockStore = configureMockStore(middlewares);
 const axiosMock = new axiosMockAdapter(axios);
 
 it("getProducts", () => {
-  axiosMock.onGet("https://api.example.org/products").reply(200, {
-    count: 1,
-    next: null,
-    previous: null,
-    results: [{ id: "p1" }]
-  });
+  axiosMock.onGet("https://api.example.org/products").reply(200, [{ id: "p1" }]);
   const expectedActions = [
     {
       type: types.FETCH_PRODUCTS,

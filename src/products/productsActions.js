@@ -7,7 +7,7 @@ export function getProducts() {
     return axios.get(`${apiURL}/products`).then(response => {
       dispatch({
         type: types.FETCH_PRODUCTS,
-        products: response.data.results
+        products: response.data
       });
       return response;
     });
