@@ -1,6 +1,7 @@
 // -*- rjsx -*-
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ListView } from 'patternfly-react';
 import { connect } from 'react-redux';
 import { fetchProductsAction } from '../reducers';
@@ -12,7 +13,7 @@ class ProductList extends React.Component {
     }
 
     render () {
-        const itemList = (this.props.products) ? this.props.products.map((item, idx) => ({title: item.name, content: item.name})) : [];
+        const itemList = (this.props.products) ? this.props.products.map((item, idx) => ({title: item.name, content: <Link to={ "/product/" + item.id }>{item.name}</Link>})) : [];
       
         return (
             <ListView>

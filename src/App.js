@@ -6,6 +6,8 @@ import { Masthead } from 'patternfly-react';
 import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';
 
+import { ProductPage } from './pages/ProductPage';
+
 //import logo from './images/logo.png'
 // Routes can be defined using custom array, store it in a dedicated module.
 import { routes } from './routes';
@@ -47,6 +49,7 @@ class App extends React.Component {
         return (
             <Switch>
               {allRoutes}
+              <Route path="/product/:id" render={props => <ProductPage {...props } />} />
               <Redirect from="*" to="/" key="default-route" />
             </Switch>
         );

@@ -5,8 +5,12 @@ import Axios from 'axios';
 
 const api = 'http://127.0.0.1:8000';
 
-function fetchProducts () {
+function fetchProducts() {
     return Axios.get(api + '/products');
 }
 
-export { fetchProducts }
+function fetchProductDetail(id) {
+    return Axios.get(api + '/product/' + id + '/');
+}
+
+export { fetchProducts, fetchProductDetail }

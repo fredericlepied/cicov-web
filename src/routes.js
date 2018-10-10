@@ -2,11 +2,11 @@
 
 // routes.js
 // A custom routing structure that is easy to maintain.
-import {Welcome} from './pages/Welcome'
+import { Welcome } from './pages/Welcome';
 
 const routes = () => [
   {
-    title: 'Welcome',
+    title: 'Products',
     to: '/',
     component: Welcome
   },
