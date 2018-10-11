@@ -15,7 +15,7 @@ export default class Product extends Component {
         key={product.id}
         expanded
         >
-        {product.rfes.length} RFEs {product.job_results.length} jobs
+        {product.rfes ? product.rfes.length : 0} RFEs {product.job_results ? product.job_results.length : 0} jobs
       </ListView.Item>
     );
   }

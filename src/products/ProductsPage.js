@@ -12,21 +12,30 @@ export class ProductsPage extends Component {
   }
   render() {
     const { products } = this.props;
-    return (
-      <MainPage>
-        <ListView>
-          {products.map(product => (
-            <Product key={product.id} product={product} />
-          ))}
+
+    if (products) {
+      return (
+        <MainPage>
+          <ListView>
+            {Object.keys(products).map(key => (<Product key={products[key].id} product={products[key]} />))}
         </ListView>
-      </MainPage>
-    );
+          </MainPage>
+      );
+    } else {
+      return (
+        <MainPage>
+          <ListView>
+            <p>No product available</p>
+          </ListView>
+          </MainPage>
+      );
+    }
   }
 }
 
 function mapStateToProps(state) {
   return {
-    products: Object.values(state.products)
+    products: state.models.products
   };
 }
 
