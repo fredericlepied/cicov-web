@@ -21,6 +21,7 @@ export const rfe_results = [rfe_result];
 product.define({
   inherit: product,
   rfes: rfes,
+  job_results: job_results
 });
 
 rfe.define({
@@ -29,14 +30,15 @@ rfe.define({
 });
 
 job_result.define({
-  product: product
+  product: product,
+  rfe_results: rfe_results,
 });
 
 test_result.define({
-  job: job_result
+  job: job_result,
 });
 
 rfe_result.define({
   job: job_result,
-  rfe: rfe
+  rfe: rfe,
 });

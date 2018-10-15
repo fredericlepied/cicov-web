@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ListView } from "patternfly-react";
 
 import { MainPage } from "../pages";
-import { getProducts } from "./productsActions";
+import { getProducts } from "../api/productsActions";
 import Product from "./Product";
 
 export class ProductsPage extends Component {
@@ -35,7 +35,7 @@ export class ProductsPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    products: state.models.products
+    products: state.products
   };
 }
 
