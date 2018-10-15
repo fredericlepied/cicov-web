@@ -13,8 +13,9 @@ export function getProductDetails(id) {
         type: types.FETCH_MODELS,
         data: normalized.entities
       });
-      if (response.data.job_results)
-        response.data.job_results.forEach(getJobResult);
+      if (response.data.job_results) {
+        response.data.job_results.forEach(id => getJobResult(id)(dispatch, getState));
+      }
       return response;
     });
   };
