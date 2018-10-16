@@ -1,33 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ListView } from "patternfly-react";
+import { isEmpty } from "lodash";
 
 import { MainPage } from "../pages";
-import { getProducts } from "../api/productsActions";
+import { getProducts } from "./productsActions";
 import Product from "./Product";
 
 export class ProductsPage extends Component {
   componentDidMount() {
     this.props.getProducts();
   }
+
   render() {
     const { products } = this.props;
-
-    if (products) {
-      return (
-        <MainPage>
-          <ListView>
-            {Object.keys(products).map(key => (<Product key={products[key].id} product={products[key]} />))}
-        </ListView>
-          </MainPage>
-      );
-    } else {
+    if (isEmpty(products)) {
       return (
         <MainPage>
           <ListView>
             <p>No product available</p>
           </ListView>
-          </MainPage>
+        </MainPage>
+      );
+    } else {
+      return (
+        <MainPage>
+          <ListView>
+            {Object.values(products).map(product => (
+              <Product key={product.id} product={product}  />
+            ))}
+          </ListView>
+        </MainPage>
       );
     }
   }

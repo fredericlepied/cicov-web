@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "normalizr": "^3.3.0",
     "patternfly-react": "^2.20.3",
     "react": "^16.5.2",
