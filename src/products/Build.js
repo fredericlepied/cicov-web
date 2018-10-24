@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { ListView, Icon, Row, Col, DonutChart } from "patternfly-react";
 
-export default class Product extends Component {
+export default class Build extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,13 +22,9 @@ export default class Product extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, build, tests } = this.props;
     const { expanded, selection } = this.state;
-    const builds = [...new Set(product.job_results.map(jr => jr.build))].sort().reverse();
-    const data_job_results = {columns: [["Jobs", product.job_results.length],
-                                       ],
-                              order: null};
-    const last_jobs = product.job_results.filter(jr => jr.build === builds[0]);
+    const last_jobs = product.job_results.filter(jr => jr.build === build);
     const successful_rfe_results = last_jobs.map(jr => jr.rfe_results.filter(res => res.result === true)).reduce((acc, val) => [...acc, ...val], []).reduce((a, v) => {a[v.rfe] = v; return a;}, {});
     const rfe_success = Object.keys(successful_rfe_results);
     const data_rfe_results = {columns: [["Validated", rfe_success.length],
@@ -61,20 +57,11 @@ export default class Product extends Component {
               toggleExpanded={() => this._toggleExpanded("job_results")}
             >
               <Icon name="list" />
-              {product.job_results ? product.job_results.length : 0} Jobs
+              {product.job_results ? last_jobs.length : 0} Jobs
             </ListView.Expand>
           </ListView.InfoItem>,
-          <ListView.InfoItem key="builds">
-            <ListView.Expand
-              expanded={expanded && selection === "builds"}
-              toggleExpanded={() => this._toggleExpanded("builds")}
-              >
-              <Icon name="list" />
-              {builds ? builds.length : 0} Builds
-            </ListView.Expand>
-          </ListView.InfoItem>
         ]}
-        heading={product.name}
+        heading={product.name + " build " + build}
         stacked={false}
         compoundExpand
         compoundExpanded={expanded}
@@ -82,10 +69,10 @@ export default class Product extends Component {
       >
         <Row>
           <Col xs={12} sm={8} smOffset={2} md={6} mdOffset={3}>
-            {selection === "builds" ? <ul>{builds.map(b => <li key={b}><Link to={`/build/${product.id}/${b}`}>{b}</Link></li>)}</ul> :
-             <DonutChart tooltip={{show: true}}
-                         title={{type: 'total', secondary: 'RFE'}}
-                         data={selection === "rfes" ? data_rfe_results : data_job_results} />}
+            {selection === "rfes" ? <DonutChart tooltip={{show: true}}
+             id={"donut-" + selection}
+             title={{type: 'total', secondary: selection}}
+             data={data_rfe_results} /> : <ul>{last_jobs.map(b => <li key={b.url}><a href={b.url}>{b.url}</a> [{b.result}] ({Object.keys(b.test_results).length} tests: {Object.keys(b.test_results.filter(tr => tr.result === true)).length} success {Object.keys(b.test_results.filter(tr => tr.result === false)).length} failures) {b.result === "UNSTABLE" ? <ul>{b.test_results.filter(tr => tr.result===false).map(tr => <li key={tr.id}>{(tr.test in tests) ? tests[tr.test].name : tr.test}</li>)}</ul> : ""}</li>)}</ul>}
           </Col>
         </Row>
       </ListView.Item>
