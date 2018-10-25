@@ -5,7 +5,7 @@ import { ListView } from "patternfly-react";
 
 import { MainPage } from "../pages";
 import { getProductDetails } from "./productsActions";
-import { getTest } from "../tests/testsActions";
+import { getTests } from "../tests/testsActions";
 import Build from "./Build";
 
 export class BuildPage extends Component {
@@ -19,12 +19,12 @@ export class BuildPage extends Component {
     };
   }
   componentDidMount() {
-    const { getProductDetails, getTest, match } = this.props;
+    const { getProductDetails, getTests, match } = this.props;
     getProductDetails(match.params.id)
       .then(response => 
             {this.setState({ loading: false, product: response.data, build: match.params.build });
-             const tests = new Set(response.data.job_results.reduce((acc, val) => acc.concat(val.test_results.filter(tr => tr.result === false).map(tr => tr.test)), []));
-             tests.forEach(test => getTest(test));
+             const tests = [...new Set(response.data.job_results.reduce((acc, val) => acc.concat(val.test_results.filter(tr => tr.result === false).map(tr => tr.test)), []))];
+             getTests(tests);
             }
       )
       .catch(error => this.setState({ loading: false, error: error.message }));
@@ -72,7 +72,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getProductDetails: id => dispatch(getProductDetails({ id })),
-    getTest: id => dispatch(getTest(id))
+    getTests: ids => dispatch(getTests(ids))
   };
 }
 

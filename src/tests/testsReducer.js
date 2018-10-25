@@ -4,9 +4,9 @@ const initialState = {};
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.GET_TEST:
+    case types.GET_TESTS:
     const data = {};
-    data[action.data.id] = action.data;
+    action.data.map(item => data[item.id] = item);
       return {
         ...state,
         ...data
