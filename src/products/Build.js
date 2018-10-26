@@ -72,7 +72,7 @@ export default class Build extends Component {
             {selection === "rfes" ? <DonutChart tooltip={{show: true}}
              id={"donut-" + selection}
              title={{type: 'total', secondary: selection}}
-             data={data_rfe_results} /> : <ul>{last_jobs.map(b => <li key={b.url}><a href={b.url}>{b.url}</a> [{b.result}] ({Object.keys(b.test_results).length} tests: {Object.keys(b.test_results.filter(tr => tr.result === true)).length} success {Object.keys(b.test_results.filter(tr => tr.result === false)).length} failures) {b.result === "UNSTABLE" ? <ul>{b.test_results.filter(tr => tr.result===false).map(tr => <li key={tr.id}>{(tr.test in tests) ? tests[tr.test].name : tr.test}</li>)}</ul> : ""}</li>)}</ul>}
+             data={data_rfe_results} /> : <ul>{last_jobs.map(b => <li key={b.url}><a href={b.url}>{b.jobname}</a> [{b.result}] ({Object.keys(b.test_results).length} tests: {Object.keys(b.test_results.filter(tr => tr.result === true)).length} success {Object.keys(b.test_results.filter(tr => tr.result === false)).length} failures) {b.result === "UNSTABLE" ? <ul>{b.test_results.filter(tr => tr.result===false).map(tr => <li key={tr.id}>{(tr.test in tests) ? tests[tr.test].name : tr.test}</li>)}</ul> : ""}</li>)}</ul>}
           </Col>
         </Row>
       </ListView.Item>
