@@ -13,7 +13,7 @@ const axiosMock = new axiosMockAdapter(axios);
 
 it("getProducts", () => {
   axiosMock
-    .onGet("https://api.example.org/api/products")
+    .onGet("https://api.example.org/api/view/products")
     .reply(200, [{ id: "p1" }]);
   const expectedActions = [
     {

@@ -4,7 +4,7 @@ import * as types from "./productsActionsTypes";
 export function getProducts() {
   return (dispatch, getState) => {
     const { apiURL } = getState().config;
-    return axios.get(`${apiURL}/products`).then(response => {
+    return axios.get(`${apiURL}/view/products`).then(response => {
       dispatch({
         type: types.GET_PRODUCTS,
         products: response.data

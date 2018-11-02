@@ -24,17 +24,17 @@ export default class Product extends Component {
   render() {
     const { product } = this.props;
     const { expanded, selection } = this.state;
-    const builds = [...new Set(product.job_results.map(jr => jr.build))].sort().reverse();
-    const data_job_results = {columns: [["Jobs", product.job_results.length],
+    const data_job_results = {columns: [["Successful Jobs", product.successful_jobs],
+                                        ["Unsuccessful Jobs", product.unsuccessful_jobs],
                                        ],
+                              colors: {"Successful Jobs": 'green',
+                                       "Unsuccessful Jobs": 'red'},
                               order: null};
-    const last_jobs = product.job_results.filter(jr => jr.build === builds[0]);
-    const successful_rfe_results = last_jobs.map(jr => jr.rfe_results.filter(res => res.result === true)).reduce((acc, val) => [...acc, ...val], []).reduce((a, v) => {a[v.rfe] = v; return a;}, {});
-    const rfe_success = Object.keys(successful_rfe_results);
-    const data_rfe_results = {columns: [["Validated", rfe_success.length],
-                                        ["Not tested", product.rfes.length - rfe_success.length],
+    const data_rfe_results = {columns: [["Validated", product.successful_rfes],
+                                        ["Not tested", product.unsuccessful_rfes],
                                        ],
-                              colors: {"Validated": 'green', "Not tested": 'red'},
+                              colors: {"Validated": 'green',
+                                       "Not tested": 'red'},
                               groups: [['validated', 'not-tested']],
                              };
 
@@ -52,7 +52,7 @@ export default class Product extends Component {
               toggleExpanded={() => this._toggleExpanded("rfes")}
             >
             <Icon name="bug" />
-            {product.rfes ? product.rfes.length : 0} RFEs
+            {product.successful_rfes + product.unsuccessful_rfes} RFEs
             </ListView.Expand>
           </ListView.InfoItem>,
           <ListView.InfoItem key="job_results">
@@ -61,7 +61,7 @@ export default class Product extends Component {
               toggleExpanded={() => this._toggleExpanded("job_results")}
             >
               <Icon name="list" />
-              {product.job_results ? product.job_results.length : 0} Jobs
+              {product.successful_jobs + product.unsuccessful_jobs} Jobs
             </ListView.Expand>
           </ListView.InfoItem>,
           <ListView.InfoItem key="builds">
@@ -70,7 +70,7 @@ export default class Product extends Component {
               toggleExpanded={() => this._toggleExpanded("builds")}
               >
               <Icon name="list" />
-              {builds ? builds.length : 0} Builds
+              {product.builds ? product.builds.length : 0} Builds
             </ListView.Expand>
           </ListView.InfoItem>
         ]}
@@ -82,9 +82,9 @@ export default class Product extends Component {
       >
         <Row>
           <Col xs={12} sm={8} smOffset={2} md={6} mdOffset={3}>
-            {selection === "builds" ? <ul>{builds.map(b => <li key={b}><Link to={`/build/${product.id}/${b}`}>{b}</Link></li>)}</ul> :
+            {selection === "builds" ? <ul>{product.builds.map(b => <li key={b}><Link to={`/build/${product.id}/${b}`}>{b}</Link></li>)}</ul> :
              <DonutChart tooltip={{show: true}}
-                         title={{type: 'total', secondary: 'RFE'}}
+             title={{type: 'total', secondary: selection === "rfes" ?'RFE' : 'Jobs'}}
                          data={selection === "rfes" ? data_rfe_results : data_job_results} />}
           </Col>
         </Row>
