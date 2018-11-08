@@ -30,23 +30,9 @@ export class Navbar extends Component {
           </Link>
         </div>
         <div className="collapse navbar-collapse navbar-collapse-1">
-          <ul className="nav navbar-nav navbar-utility">
-            <li>
-              <a
-                href="https://example.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Documentation
-              </a>
-            </li>
-          </ul>
           <ul className="nav navbar-nav navbar-primary">
             <NavLink id="products" to="/products" location={location}>
-              Products
-            </NavLink>
-            <NavLink id="about" to="/about" location={location}>
-              About
+              Dashboard
             </NavLink>
           </ul>
         </div>
