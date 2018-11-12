@@ -4,6 +4,7 @@ import { isEmpty } from "lodash";
 
 import { MainPage } from "../pages";
 import { getProductDetails } from "./productsActions";
+import { getTests } from "../tests/testsActions";
 import RegressionsGraph from "./RegressionsGraph";
 import FeaturesGraph from "./FeaturesGraph";
 import { getStats } from "./stats";
@@ -16,17 +17,25 @@ export class ProductPage extends Component {
       product: null,
       error: null
     };
+    this.render_jobs.bind(this);
   }
   componentDidMount() {
-    const { getProductDetails, match } = this.props;
+    const { getProductDetails, match, getTests } = this.props;
     getProductDetails(match.params.id)
       .then(response => {
-        this.setState({ loading: false, product: response.data });
+        const product = response.data;
+        const last_build = product.job_results[product.job_results.length - 1].build;
+        const last_job_results = product.job_results.filter(jr => jr.build === last_build);
+        const failed_tests = last_job_results.map(jr => jr.test_results.filter(tr => (tr.result === false))).flat();
+        this.setState({ loading: false, product: response.data, last_build: last_build });
+        getTests(failed_tests.map(tr => tr.test));
       })
       .catch(error => this.setState({ loading: false, error: error.message }));
   }
+
   render_jobs(product) {
-    const last_build = product.job_results[product.job_results.length - 1].build;
+    const { last_build } = this.state;
+    const { tests } = this.props;
     return product.job_results.filter(jr => jr.build === last_build).map(jr => (
       <tr key={jr.id}>
         <td className="text-center">
@@ -38,9 +47,10 @@ export class ProductPage extends Component {
           )
         )}
         </td>
-        <td><a href={jr.url}>{jr.jobname}</a>{jr.result !== "SUCCESS" ? <ul>{jr.test_results.filter(tr => tr.result === false).map(tr => <li key={tr.id}>{tr.test}</li>)}</ul> : ""}</td>
+        <td><a href={ jr.url }>{ jr.jobname }</a>{jr.result !== "SUCCESS" ? <ul>{jr.test_results.filter(tr => tr.result === false).map(tr => <li key={tr.id}>{(tests && tr.test in tests) ? tests[tr.test].name : tr.test}</li>)}</ul> : ""}</td>
         </tr>
     ));}
+
   render() {
     const { loading, error, product } = this.state;
     if (loading) {
@@ -144,13 +154,20 @@ export class ProductPage extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    tests: state.tests
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
-    getProductDetails: id => dispatch(getProductDetails({ id }))
+    getProductDetails: id => dispatch(getProductDetails({ id })),
+    getTests: ids => dispatch(getTests(ids)),
   };
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ProductPage);
