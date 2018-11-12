@@ -47,8 +47,8 @@ export class ProductsPage extends Component {
             className="col-sm-4 col-md-3 sidebar-pf sidebar-pf-right"
             style={{ minHeight: "100vh" }}
           >
-            <div class="sidebar-header sidebar-header-bleed-left sidebar-header-bleed-right">
-              <h2 class="h5">Latest Notifications</h2>
+            <div className="sidebar-header sidebar-header-bleed-left sidebar-header-bleed-right">
+              <h2 className="h5">Latest Notifications</h2>
             </div>
           </div>
         </div>
