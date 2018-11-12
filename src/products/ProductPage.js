@@ -84,7 +84,7 @@ export class ProductPage extends Component {
               </thead>
               <tbody>
                 {product.rfes.map(rfe => (
-                  <tr>
+                  <tr key={rfe.id}>
                     <th>{rfe.id}</th>
                     <td>{rfe.name}</td>
                     <td className="text-center">
