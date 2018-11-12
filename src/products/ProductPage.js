@@ -25,6 +25,22 @@ export class ProductPage extends Component {
       })
       .catch(error => this.setState({ loading: false, error: error.message }));
   }
+  render_jobs(product) {
+    const last_build = product.job_results[product.job_results.length - 1].build;
+    return product.job_results.filter(jr => jr.build === last_build).map(jr => (
+      <tr key={jr.id}>
+        <td className="text-center">
+        {jr.result === "SUCCESS" ? <span className="label label-success">success</span> : 
+         (jr.result === "UNSTABLE" ? (
+            <span className="label label-default">unstable</span>
+          ) : (
+            <span className="label label-danger">failure</span>
+          )
+        )}
+        </td>
+        <td><a href={jr.url}>{jr.jobname}</a>{jr.result !== "SUCCESS" ? <ul>{jr.test_results.filter(tr => tr.result === false).map(tr => <li key={tr.id}>{tr.test}</li>)}</ul> : ""}</td>
+        </tr>
+    ));}
   render() {
     const { loading, error, product } = this.state;
     if (loading) {
@@ -72,6 +88,18 @@ export class ProductPage extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
+            <h3>Jobs for last build ({product.job_results[product.job_results.length - 1].build})</h3>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th className="text-center">Result</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.render_jobs(product)}
+              </tbody>
+            </table>
             <h3>RFEs</h3>
             <table className="table table-bordered">
               <thead>
