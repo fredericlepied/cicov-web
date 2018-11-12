@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { isEmpty } from "lodash";
-import { ListView } from "patternfly-react";
 
 import { MainPage } from "../pages";
 import { getProductDetails } from "./productsActions";
-import Product from "./Product";
 
 export class ProductPage extends Component {
   constructor(props) {
@@ -19,9 +17,9 @@ export class ProductPage extends Component {
   componentDidMount() {
     const { getProductDetails, match } = this.props;
     getProductDetails(match.params.id)
-      .then(response =>
-        this.setState({ loading: false, product: response.data })
-      )
+      .then(response => {
+        this.setState({ loading: false, product: response.data });
+      })
       .catch(error => this.setState({ loading: false, error: error.message }));
   }
   render() {
@@ -33,25 +31,23 @@ export class ProductPage extends Component {
         </MainPage>
       );
     }
-    if (!loading && error) {
+    if (error) {
       return (
         <MainPage>
           <p>{error}</p>
         </MainPage>
       );
     }
-    if (!loading && !error && isEmpty(product)) {
+    if (isEmpty(product)) {
       return (
         <MainPage>
-          <p>There is no product matching </p>
+          <p>There is no product matching</p>
         </MainPage>
       );
     }
     return (
       <MainPage>
-        <ListView>
-          <Product product={product} />
-        </ListView>
+        <pre>{JSON.stringify(product, null, 2)}</pre>
       </MainPage>
     );
   }
