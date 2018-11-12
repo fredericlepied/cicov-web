@@ -86,7 +86,7 @@ export class ProductPage extends Component {
                 {product.rfes.map(rfe => (
                   <tr key={rfe.id}>
                     <th>{rfe.id}</th>
-                    <td>{rfe.name}</td>
+                    <td><a href={rfe.url}>{rfe.name}</a></td>
                     <td className="text-center">
                       {rfe.product_id === product.id ? (
                         <span className="label label-success">feature</span>
