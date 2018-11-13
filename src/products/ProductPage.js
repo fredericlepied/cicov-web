@@ -114,7 +114,6 @@ export class ProductPage extends Component {
             <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Name</th>
                   <th className="text-center">Type</th>
                   <th className="text-center">Tested</th>
@@ -123,7 +122,6 @@ export class ProductPage extends Component {
               <tbody>
                 {product.rfes.map(rfe => (
                   <tr key={rfe.id}>
-                    <th>{rfe.id}</th>
                     <td><a href={rfe.url}>{rfe.name}</a></td>
                     <td className="text-center">
                       {rfe.product_id === product.id ? (

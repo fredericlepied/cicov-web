@@ -21,7 +21,7 @@ export default class Product extends Component {
               data={{
                 colors: {
                   Validated: "#3f9c35",
-                  "Not Tested": "#cc0000"
+                  "Not Tested": "#777777"
                 },
                 columns: [
                   ["Validated", product.successful_rfes],
