@@ -31,7 +31,7 @@ export class ProductsPage extends Component {
     }
 
     const productList = Object.values(products)
-      .sort((p1, p2) => p1.id < p2.id)
+      .sort((p1, p2) => p2.id - p1.id)
       .map(product => <Product key={product.id} product={product} />);
 
     return (
